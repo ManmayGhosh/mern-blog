@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #eee6d3;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(27,29,36,0.035) 1px, transparent 0);
+  background-size: 22px 22px;
+  color: #1b1d24;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+/* Signature element: rotated postmark date stamp */
+.postmark {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  border: 1.5px solid #9c3d34;
+  border-radius: 9999px;
+  color: #9c3d34;
+  transform: rotate(-8deg);
+  font-family: 'IBM Plex Mono', monospace;
+  line-height: 1;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+.postmark::before {
+  content: '';
+  position: absolute;
+  width: 3.7rem;
+  height: 3.7rem;
+  border: 1px dashed #9c3d34;
+  border-radius: 9999px;
+  opacity: 0.6;
+}
+
+.prose-marginalia h1,
+.prose-marginalia h2,
+.prose-marginalia h3 {
+  font-family: 'Fraunces', Georgia, serif;
+  color: #1b1d24;
+}
+.prose-marginalia p { margin-bottom: 1.1em; line-height: 1.75; }
+.prose-marginalia a { color: #9c3d34; text-decoration: underline; text-underline-offset: 2px; }
+.prose-marginalia code {
+  background: #e2d7b8;
+  padding: 0.1em 0.4em;
+  border-radius: 0.25em;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.9em;
+}
+.prose-marginalia pre {
+  background: #1b1d24;
+  color: #eee6d3;
+  padding: 1em;
+  border-radius: 0.5em;
+  overflow-x: auto;
+}
+.prose-marginalia pre code { background: transparent; color: inherit; padding: 0; }
+.prose-marginalia blockquote {
+  border-left: 3px solid #9c3d34;
+  padding-left: 1em;
+  font-style: italic;
+  color: #4a4636;
+}
+.prose-marginalia img {
+  border-radius: 0.5em;
+  border: 1px solid #cdbf99;
+}
+.prose-marginalia ul, .prose-marginalia ol {
+  margin-left: 1.4em;
+  margin-bottom: 1.1em;
+}
+.prose-marginalia ul { list-style: disc; }
+.prose-marginalia ol { list-style: decimal; }
+
+/* visible keyboard focus */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid #9c3d34;
+  outline-offset: 2px;
+}
