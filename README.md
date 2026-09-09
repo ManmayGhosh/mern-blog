@@ -157,3 +157,11 @@ blog-app/
 - Multer is pinned to 2.x (1.x has known vulnerabilities).
 - Three.js and emoji-picker-react are both lazy-loaded so the initial page load stays reasonably light (~520KB main bundle — the animation stack sitewide adds weight vs. a bare-bones build, but nothing is duplicated across libraries).
 
+
+## Resume Highlights
+
+**Inkwell — Full-Stack Blogging Platform** | *React, Node.js/Express, MongoDB, Three.js, Docker* | Sep 2026 – Present
+
+- Engineered a full-stack MERN blog (JWT auth, Multer image uploads, MongoDB full-text search, threaded comments) with a decoupled React/Express architecture, deployed live on Render with MongoDB Atlas
+- Built a generative Three.js hero (4 offline-rendered animated scenes) paired with a locally-computed keyword-based content-recommendation engine — delivering theme suggestions with **zero external AI API cost or dependency**
+- Cut the production JS bundle by **55% (850KB → ~380KB baseline)** via code-splitting Three.js and the emoji picker into on-demand chunks; containerized the full stack with Docker Compose on an isolated network
