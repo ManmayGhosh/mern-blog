@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import gsap from 'gsap';
 import Reveal from './Reveal.jsx';
+import { resolveUploadUrl } from '../api/client.js';
 
 export default function PostCard({ post }) {
   const date = new Date(post.createdAt);
@@ -69,7 +70,7 @@ export default function PostCard({ post }) {
 
         {post.coverImage && (
           <img
-            src={post.coverImage}
+            src={resolveUploadUrl(post.coverImage)}
             alt=""
             className="w-24 h-24 object-cover rounded-sm border border-line hidden sm:block"
           />

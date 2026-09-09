@@ -120,11 +120,12 @@ docker compose up --build
    - Mount a persistent volume at `server/uploads`, or
    - Swap the Multer disk storage in `middleware/upload.js` for an S3/Cloudinary storage engine (`multer-s3` or similar) — the rest of the app only cares that `coverImage`/`avatar` end up as a URL string, so this is a contained change.
 
-### Frontend (Vercel / Netlify / Cloudflare Pages)
-1. `npm run build` → deploy the `client/dist` folder.
-2. Set the API base URL: currently the frontend calls relative `/api` paths (works via Vite's dev proxy locally, and via nginx's reverse proxy in Docker). In a non-Docker cloud deploy, either:
-   - Reverse-proxy `/api` and `/uploads` to your backend from the same domain, or
-   - Set an env var and update `client/src/api/client.js`'s `baseURL` to point at your deployed backend's full URL, and update CORS `CLIENT_URL` on the backend accordingly.
+### Frontend (Vercel / Netlify / Cloudflare Pages / Render Static Site)
+1. Set a build-time environment variable **`VITE_API_BASE_URL`** to your backend's full URL (e.g. `https://mern-blog-server-i1l8.onrender.com`) — no trailing slash. Vite bakes this into the build, so it must be set *before* the build runs, not after.
+2. `npm run build` → deploy the `client/dist` folder.
+3. On the backend, set `CLIENT_URL` to your deployed frontend's exact origin (e.g. `https://mern-blog-client-86ks.onrender.com`) so CORS allows it.
+
+**Why not a same-origin rewrite/proxy instead?** That's the more common pattern (and what nginx does in the Docker setup, and what Vite's dev server does locally) — but on split-origin static hosts, it depends on the platform's rewrite engine transparently forwarding POST bodies, which isn't guaranteed. In testing, Render's static-site rewrite rules reliably proxied GETs but silently dropped POST bodies (login/register came back 200 with an empty body — no error, just no data). Calling the backend directly with CORS sidesteps that entirely and is the more portable choice across hosts. If you're running via Docker Compose instead, nginx's reverse proxy already handles this correctly and `VITE_API_BASE_URL` can be left unset (defaults to relative `/api`, proxied by nginx).
 
 ### Database
 Use MongoDB Atlas free tier for a zero-maintenance production database — create a cluster, whitelist your backend's IP (or `0.0.0.0/0` for PaaS with dynamic IPs), and drop the connection string into `MONGO_URI`.

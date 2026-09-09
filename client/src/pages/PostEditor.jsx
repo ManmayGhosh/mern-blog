@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import api from '../api/client.js';
+import api, { resolveUploadUrl } from '../api/client.js';
 import EmojiTextarea from '../components/EmojiTextarea.jsx';
 import ImageUploader from '../components/ImageUploader.jsx';
 import Loader from '../components/Loader.jsx';
@@ -32,7 +32,7 @@ export default function PostEditor() {
         setContent(post.content);
         setTags((post.tags || []).join(', '));
         setPublished(post.published);
-        setExistingCover(post.coverImage);
+        setExistingCover(resolveUploadUrl(post.coverImage));
       })
       .catch(() => setError('Could not load this post for editing'))
       .finally(() => setLoading(false));

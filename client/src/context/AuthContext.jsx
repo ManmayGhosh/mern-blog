@@ -30,6 +30,11 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const { data } = await api.post('/auth/login', { email, password });
+    if (!data?.token || !data?.user) {
+      throw new Error(
+        "Server didn't return a valid login response — check that /api requests are actually reaching the backend."
+      );
+    }
     localStorage.setItem('inkwell_token', data.token);
     setUser(data.user);
     return data.user;
@@ -37,6 +42,11 @@ export function AuthProvider({ children }) {
 
   const register = async (username, email, password) => {
     const { data } = await api.post('/auth/register', { username, email, password });
+    if (!data?.token || !data?.user) {
+      throw new Error(
+        "Server didn't return a valid registration response — check that /api requests are actually reaching the backend."
+      );
+    }
     localStorage.setItem('inkwell_token', data.token);
     setUser(data.user);
     return data.user;

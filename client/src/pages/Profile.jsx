@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../api/client.js';
+import api, { resolveUploadUrl } from '../api/client.js';
 import { useAuth } from '../context/AuthContext.jsx';
 import ImageUploader from '../components/ImageUploader.jsx';
 import PostCard from '../components/PostCard.jsx';
@@ -50,7 +50,7 @@ export default function Profile() {
       <h1 className="font-display text-3xl font-semibold mb-6">{user.username}</h1>
 
       <form onSubmit={handleSave} className="space-y-4 mb-12 pb-10 border-b border-line">
-        <ImageUploader onFileSelect={setAvatarFile} existingUrl={user.avatar} label="Avatar" shape="circle" />
+        <ImageUploader onFileSelect={setAvatarFile} existingUrl={resolveUploadUrl(user.avatar)} label="Avatar" shape="circle" />
         <div>
           <label className="block font-mono text-xs uppercase tracking-wide text-ink/60 mb-1">Bio</label>
           <textarea

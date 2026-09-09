@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import ReactMarkdown from 'react-markdown';
 import gsap from 'gsap';
-import api from '../api/client.js';
+import api, { resolveUploadUrl } from '../api/client.js';
 import { useAuth } from '../context/AuthContext.jsx';
 import Loader from '../components/Loader.jsx';
 import CommentSection from '../components/CommentSection.jsx';
@@ -95,7 +95,7 @@ export default function PostDetail() {
       </div>
 
       {post.coverImage && (
-        <img src={post.coverImage} alt={post.title} className="w-full rounded-sm border border-line mb-8" />
+        <img src={resolveUploadUrl(post.coverImage)} alt={post.title} className="w-full rounded-sm border border-line mb-8" />
       )}
 
       <div className="prose-marginalia font-body text-[1.05rem]">
