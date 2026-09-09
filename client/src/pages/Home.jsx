@@ -45,8 +45,12 @@ export default function Home() {
     api
       .get('/posts', { params: { page, search: search || undefined } })
       .then(({ data }) => {
-        setPosts(data.posts);
-        setPages(data.pages);
+        setPosts(Array.isArray(data.posts) ? data.posts : []);
+        setPages(Number(data.pages) || 1);
+      })
+      .catch(() => {
+        setPosts([]);
+        setPages(1);
       })
       .finally(() => setLoading(false));
   }, [page, search]);

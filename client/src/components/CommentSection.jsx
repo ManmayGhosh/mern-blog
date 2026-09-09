@@ -71,20 +71,26 @@ export default function CommentSection({ postId }) {
   const [loading, setLoading] = useState(true);
 
   const load = async () => {
-    const { data } = await api.get(`/comments/post/${postId}`);
-    // Build a tree from the flat list
-    const map = {};
-    data.comments.forEach((c) => (map[c._id] = { ...c, replies: [] }));
-    const roots = [];
-    data.comments.forEach((c) => {
-      if (c.parentComment) {
-        map[c.parentComment]?.replies.push(map[c._id]);
-      } else {
-        roots.push(map[c._id]);
-      }
-    });
-    setComments(roots);
-    setLoading(false);
+    try {
+      const { data } = await api.get(`/comments/post/${postId}`);
+      const commentList = Array.isArray(data.comments) ? data.comments : [];
+      // Build a tree from the flat list
+      const map = {};
+      commentList.forEach((c) => (map[c._id] = { ...c, replies: [] }));
+      const roots = [];
+      commentList.forEach((c) => {
+        if (c.parentComment) {
+          map[c.parentComment]?.replies.push(map[c._id]);
+        } else {
+          roots.push(map[c._id]);
+        }
+      });
+      setComments(roots);
+    } catch {
+      setComments([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

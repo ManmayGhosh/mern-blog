@@ -16,10 +16,13 @@ export default function Profile() {
 
   useEffect(() => {
     if (!user) return;
-    api.get('/posts', { params: { author: user.id, limit: 50 } }).then(({ data }) => {
-      setPosts(data.posts);
-      setLoadingPosts(false);
-    });
+    api
+      .get('/posts', { params: { author: user.id, limit: 50 } })
+      .then(({ data }) => {
+        setPosts(Array.isArray(data.posts) ? data.posts : []);
+      })
+      .catch(() => setPosts([]))
+      .finally(() => setLoadingPosts(false));
   }, [user]);
 
   const handleSave = async (e) => {
